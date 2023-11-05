@@ -88,7 +88,19 @@ end
 (雖然 cpu_overheated 跟 shut_off_computer 本來就是一樣的值，所以電路不會形成 MUX 只會接在一起)  
 這個時候波形跟電路便依照我們想要的狀態去輸出正確的output  
 以上例子便可說明【注意所有可能case】的重要性  
-
+另一種 Case statement 寫 default case 的方式：
+```verilog
+always @(*) begin
+    // Another way to write default case
+    up = 1'b0; down = 1'b0; left = 1'b0; right = 1'b0;
+    case (scancode)
+        16'he06b: left = 1'b1;
+        16'he072: down = 1'b1;
+        16'he074: right = 1'b1;
+        16'he075: up = 1'b1;
+    endcase
+end
+'''
 
 
 
