@@ -55,6 +55,7 @@ mod_a instance2 ( .out(wc), .in1(wa), .in2(wb) );
 除非故意使用 latch，否則通常都會造成 bug。  
   
 Example (來自 HDLBits 的例子):  
+
 ```verilog
 module test(
 input cpu_overheated,
@@ -68,9 +69,10 @@ end
 endmodule 
 ```
 如果我們以這個程式碼下去跑模擬，出來的 block diagram 以及 waveform simulation 會是：
-![](/image_for_notes/Latch_sim_diagram1.png)  
+<img src="/image_for_notes/Latch_sim_diagram1.png" alt="Editor" width="500">
 ![](/image_for_notes/Latch_sim_wave1.png)  
 此時發現從 block diagram 發現，output 永遠都是 1，波形根本沒有隨著 input 變動，一直都是鎖定的  
+/------------------------------------------------------------------------------------------------------------------------------------------------------------/  
 我們對程式碼修改：　　
 ```verilog
 always @(*) begin
@@ -80,6 +82,13 @@ always @(*) begin
         shut_off_computer = 1'b0;
 end
 ```
+<img src="/image_for_notes/Latch_sim_diagram2.png" alt="Editor" width="500">
+<img src="/image_for_notes/Latch_sim_wave2.png">
+
+(雖然 cpu_overheated 跟 shut_off_computer 本來就是一樣的值，所以電路不會形成 MUX 只會接在一起)  
+這個時候波形跟電路便依照我們想要的狀態去輸出正確的output  
+以上例子便可說明【注意所有可能case】的重要性  
+
 
 
 
@@ -88,7 +97,10 @@ Full-adder sturcture (image is from Wiki) :
 ![](/image_for_notes/Full-adder.svg.png)  
 
 Carry-out bit K-map 電路化簡:  
-![Full-adder_cout_kmap](/image_for_notes/Full-adder_cout_kmap.jpg)
+<img src="/image_for_notes/Full-adder_cout_kmap.jpg" alt="Editor" width="500">
+
+
+
 
 ## Carry-Select Adder
 Carry-Select Adder sturcture (image is from HDLBits) :  
@@ -117,6 +129,8 @@ Carry-Select Adder sturcture (image is from HDLBits) :
 我們不需要等待低位元的 Adder16 算出 Cout 再傳給高位元的 Adder16 做計算，  
 代價是犧牲了一些面積。  
 
+
+
 ## Adder & Substractor  
 Adder & Substractor sturcture (image is from HDLBits) :  
 ![](/image_for_notes/adder_subtractor.png)  
@@ -128,7 +142,8 @@ Ex. -28 = ^(00011100) + (8'b1) = (11100011) + (8'b1) = (11100100),  也就是 28
 ```
 補數示意圖 : 
 (來源 : https://www.allaboutcircuits.com/technical-articles/twos-complement-representation-theory-and-examples/)
-![](/image_for_notes/Complementary.png)  
+<img src="/image_for_notes/Complementary.png" alt="Editor" width="500">
+
   
 減法器 :  
 ```
