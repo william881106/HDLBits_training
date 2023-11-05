@@ -53,6 +53,23 @@ mod_a instance2 ( .out(wc), .in1(wa), .in2(wb) );
 如果出現了"指定case以外的情況"，**Verilog 傾向於保持 output 不變，也就是 latch**  
 ( Watch out for Warning (10240): ... inferring latch(es)" messages. )  
 除非故意使用 latch，否則通常都會造成 bug。  
+  
+Example (來自 HDLBits 的例子):  
+```verilog
+module test(
+input cpu_overheated,
+output reg shut_off_computer
+);
+
+always @(*) begin
+    if (cpu_overheated)
+       shut_off_computer = 1'b1;
+end
+endmodule 
+```
+如果我們以這個程式碼下去跑模擬，出來的 block diagram 以及 waveform simulation 會是：
+
+
 
 
 
