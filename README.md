@@ -100,7 +100,7 @@ always @(*) begin
         16'he075: up = 1'b1;
     endcase
 end
-'''
+```
 
 
 
@@ -132,10 +132,10 @@ Carry-Select Adder sturcture (image is from HDLBits) :
    對普通的 Adder32 來說，原本高位元的 Adder16 本來 Cin 就會是 1  
    我們就選擇 B 的輸出，當作 sum 的高位元
 
-| Structure          | Critical path (delay)| Area          |
-| ------------------ |:--------------------:|:-------------:|
-| Full Adder         | Adder16 * 2          | **較小**      |
-| Carry-Select Adder | **Adder16 + 2to1MUX**| 較大          |
+| Structure          | Critical path (delay) | Area          | 
+|:------------------:|:---------------------:|:-------------:| 
+| Full Adder         | Adder16 * 2           | **較小**      | 
+| Carry-Select Adder | **Adder16 + 2to1MUX** | 較大          | 
 
 這種作法優劣勢非常明顯，  
 我們不需要等待低位元的 Adder16 算出 Cout 再傳給高位元的 Adder16 做計算，  
