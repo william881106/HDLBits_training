@@ -68,9 +68,18 @@ end
 endmodule 
 ```
 如果我們以這個程式碼下去跑模擬，出來的 block diagram 以及 waveform simulation 會是：
-
-
-
+![](/image_for_notes/Latch_sim_diagram1.png)  
+![](/image_for_notes/Latch_sim_wave1.png)  
+此時發現從 block diagram 發現，output 永遠都是 1，波形根本沒有隨著 input 變動，一直都是鎖定的  
+我們對程式碼修改：　　
+```verilog
+always @(*) begin
+    if (cpu_overheated)
+        shut_off_computer = 1'b1;
+    else
+        shut_off_computer = 1'b0;
+end
+```
 
 
 
