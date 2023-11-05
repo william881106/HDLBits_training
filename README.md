@@ -2,18 +2,6 @@
 Just a record about my training process in HDLBits
 
 # My notes
-## For-loop in verilog
-```verilog
-integer i;  // int i; 被宣告在此
-always@ (*)begin   // for-loop 需要在 always-block 中
-    for(i=0;i<=7;i++)begin
-        out[i] = in[7-i]; // 特別注意 for-loop 不能 assign
-    end
-end
-```
-
-
-
 ## Replication operator 
 The replication operator allows repeating a vector and concatenating them together:  
 ```
@@ -101,6 +89,41 @@ always @(*) begin
     endcase
 end
 ```
+
+
+
+## For-loop in verilog
+```verilog
+module top_module( 
+    input [254:0] in,
+    output reg [7:0] out );
+	  
+    integer i; // int i; 被宣告在此
+    always @(in)begin
+        out = 8'd0;  // 如果像下面需要做迴圈"運算"，記得一開始要先初始化數值
+        for(i=0; i<255; i++)begin  // for-loop 需要在 always-block 中
+            if(in[i]==1'b1)
+            	out = out + 1'b1; // 特別注意 for-loop 不能 assign
+        end
+    end
+endmodule
+```
+
+
+## generate statement 
+```verilog
+genvar i;  // int i; 被宣告在此
+generate   // int i; generate statement 開始的宣告
+    for(i=0; i<100; i++)begin:BCDblock    // generate 的 for-loop 後面一定要 ":名稱"，名稱隨便取
+        if(i == 0)
+            bcd_fadd U0(a[3:0], b[3:0], cin, _cout[0], sum[3:0] );
+        else
+            bcd_fadd U1(a[4*i+3:4*i], b[4*i+3:4*i], _cout[i-1], _cout[i], sum[4*i+3:4*i] );
+    end
+endgenerate  // int i; generate statement 結束的宣告
+assign cout = _cout[99];
+```
+
 
 
 
