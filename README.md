@@ -1,8 +1,25 @@
 # HDLBits_training
 Just a record about my training process in HDLBits
 
+# Outline
+- [HDLBits_training](#hdlbits-training)
+- [My notes](#my-notes)
+  * [Replication operator](#replication-operator)
+  * [Connecting Signals to Module Ports](#connecting-signals-to-module-ports)
+    + [By position](#by-position)
+    + [By name](#by-name)
+  * [Avoid making latches](#avoid-making-latches)
+  * [For-loop in verilog](#for-loop-in-verilog)
+  * [generate statement](#generate-statement)
+  * [Full-adder](#full-adder)
+  * [Carry-Select Adder](#carry-select-adder)
+  * [Adder & Substractor](#adder---substractor)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # My notes
-## Replication operator 
+## Replication operator  
 The replication operator allows repeating a vector and concatenating them together:  
 ```
 {num{vector}}
