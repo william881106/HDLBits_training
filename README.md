@@ -13,6 +13,50 @@ end
 ```
 
 
+
+## Replication operator 
+The replication operator allows repeating a vector and concatenating them together:  
+```
+{num{vector}}
+```
+This replicates vector by num times. num must be a constant. Both sets of braces are required.  
+
+Examples:  
+```verilog  
+assign {5{1'b1}}           // 5'b11111 (or 5'd31 or 5'h1f)
+assign {2{a,b,c}}          // The same as {a,b,c,a,b,c}
+assign {3'd5, {2{3'd6}}}   // 9'b101_110_110. It's a concatenation of 101 with
+                           // the second vector, which is two copies of 3'b110.
+```
+
+
+
+## Connecting Signals to Module Ports
+### By position
+```verilog
+mod_a instance1 ( wa, wb, wc );
+```
+此方式如同其他多數程式語言 call function 的方式 (C-like syntax)，  
+不過如果 module 宣告的 port list 有改變，則程式碼需要跟著改變順序或in/ouput數量。  
+
+### By name
+```verilog
+mod_a instance2 ( .out(wc), .in1(wa), .in2(wb) );
+```
+連接時需指定 module 原來的 port 名稱  
+好處是這種宣告法不受順序影響，只會依照名子連接  
+
+
+
+## Avoid making latches
+"語法正確的程式碼" 不等於 "合理的電路" (combinational logic + flip-flops)  
+如果出現了"指定case以外的情況"，**Verilog 傾向於保持 output 不變，也就是 latch**  
+( Watch out for Warning (10240): ... inferring latch(es)" messages. )  
+除非故意使用 latch，否則通常都會造成 bug。  
+
+
+
+
 ## Full-adder
 Full-adder sturcture (image is from Wiki) :  
 ![](/image_for_notes/Full-adder.svg.png)  
