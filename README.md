@@ -2,6 +2,17 @@
 Just a record about my training process in HDLBits
 
 # My notes
+## For-loop in verilog
+```verilog
+integer i;  // int i; 被宣告在此
+always@ (*)begin   // for-loop 需要在 always-block 中
+    for(i=0;i<=7;i++)begin
+        out[i] = in[7-i]; // 特別注意 for-loop 不能 assign
+    end
+end
+```
+
+
 ## Full-adder
 Full-adder sturcture (image is from Wiki) :  
 ![](/image_for_notes/Full-adder.svg.png)  
