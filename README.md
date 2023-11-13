@@ -2,20 +2,21 @@
 Just a record about my training process in HDLBits
 
 # Outline
-- [HDLBits_training](#hdlbits-training)
 - [My notes](#my-notes)
   * [Replication operator](#replication-operator)
+  * [Replication operator](#replication-operator-1)
   * [Connecting Signals to Module Ports](#connecting-signals-to-module-ports)
     + [By position](#by-position)
     + [By name](#by-name)
-  * [Avoid making latches](#avoid-making-latches)
   * [For-loop in verilog](#for-loop-in-verilog)
   * [generate statement](#generate-statement)
+  * [Avoid making latches](#avoid-making-latches)
   * [Full-adder](#full-adder)
   * [Carry-Select Adder](#carry-select-adder)
   * [Adder & Substractor](#adder---substractor)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 
 # My notes
@@ -36,6 +37,20 @@ assign {3'd5, {2{3'd6}}}   // 9'b101_110_110. It's a concatenation of 101 with
 
 
 
+## Replication operator  
+變數可以當作 index 來直接使用:
+```verilog
+module top_module( 
+    input [255:0] in,
+    input [7:0] sel,
+    output out );
+    assign out = in[sel]; //會依照 sel 的數值，取出"in"的第 sel 個 bit
+endmodule
+```
+
+
+
+
 ## Connecting Signals to Module Ports
 ### By position
 ```verilog
@@ -50,6 +65,45 @@ mod_a instance2 ( .out(wc), .in1(wa), .in2(wb) );
 ```
 連接時需指定 module 原來的 port 名稱  
 好處是這種宣告法不受順序影響，只會依照名子連接  
+
+
+
+
+
+## For-loop in verilog
+```verilog
+module top_module( 
+    input [254:0] in,
+    output reg [7:0] out );
+	  
+    integer i; // int i; 被宣告在此
+    always @(in)begin
+        out = 8'd0;  // 如果像下面需要做迴圈"運算"，記得一開始要先初始化數值
+        for(i=0; i<255; i++)begin  // for-loop 需要在 always-block 中
+            if(in[i]==1'b1)
+            	out = out + 1'b1; // 特別注意 for-loop 不能 assign
+        end
+    end
+endmodule
+```
+
+
+
+## generate statement 
+```verilog
+genvar i;  // int i; 被宣告在此
+generate   // int i; generate statement 開始的宣告
+    for(i=0; i<100; i++)begin:BCDblock    // generate 的 for-loop 後面一定要 ":名稱"，名稱隨便取
+        if(i == 0)
+            bcd_fadd U0(a[3:0], b[3:0], cin, _cout[0], sum[3:0] );
+        else
+            bcd_fadd U1(a[4*i+3:4*i], b[4*i+3:4*i], _cout[i-1], _cout[i], sum[4*i+3:4*i] );
+    end
+endgenerate  // int i; generate statement 結束的宣告
+assign cout = _cout[99];
+```
+
+
 
 
 
@@ -109,37 +163,8 @@ end
 
 
 
-## For-loop in verilog
-```verilog
-module top_module( 
-    input [254:0] in,
-    output reg [7:0] out );
-	  
-    integer i; // int i; 被宣告在此
-    always @(in)begin
-        out = 8'd0;  // 如果像下面需要做迴圈"運算"，記得一開始要先初始化數值
-        for(i=0; i<255; i++)begin  // for-loop 需要在 always-block 中
-            if(in[i]==1'b1)
-            	out = out + 1'b1; // 特別注意 for-loop 不能 assign
-        end
-    end
-endmodule
-```
 
 
-## generate statement 
-```verilog
-genvar i;  // int i; 被宣告在此
-generate   // int i; generate statement 開始的宣告
-    for(i=0; i<100; i++)begin:BCDblock    // generate 的 for-loop 後面一定要 ":名稱"，名稱隨便取
-        if(i == 0)
-            bcd_fadd U0(a[3:0], b[3:0], cin, _cout[0], sum[3:0] );
-        else
-            bcd_fadd U1(a[4*i+3:4*i], b[4*i+3:4*i], _cout[i-1], _cout[i], sum[4*i+3:4*i] );
-    end
-endgenerate  // int i; generate statement 結束的宣告
-assign cout = _cout[99];
-```
 
 
 
@@ -150,6 +175,7 @@ Full-adder sturcture (image is from Wiki) :
 
 Carry-out bit K-map 電路化簡:  
 <img src="/image_for_notes/Full-adder_cout_kmap.jpg" alt="Editor" width="500">
+
 
 
 
