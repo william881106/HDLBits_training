@@ -4,7 +4,7 @@ Just a record about my training process in HDLBits
 # Outline
 - [My notes](#my-notes)
   * [Replication operator](#replication-operator)
-  * [Replication operator](#replication-operator-1)
+  * [Variable as index](#replication-operator-1)
   * [Connecting Signals to Module Ports](#connecting-signals-to-module-ports)
     + [By position](#by-position)
     + [By name](#by-name)
@@ -37,7 +37,7 @@ assign {3'd5, {2{3'd6}}}   // 9'b101_110_110. It's a concatenation of 101 with
 
 
 
-## Replication operator  
+## Variable as index  
 變數可以當作 index 來直接使用:
 ```verilog
 module top_module( 
