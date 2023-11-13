@@ -47,7 +47,15 @@ module top_module(
     assign out = in[sel]; //會依照 sel 的數值，取出"in"的第 sel 個 bit
 endmodule
 ```
-
+但是變數無法提供"一個範圍"，具體來說，in[ sel*4+3 : sel*4 ] 的寫法編譯會錯誤
+```verilog
+module top_module( 
+    input [1023:0] in,
+    input [7:0] sel,
+    output [3:0] out );
+    assign out = {in[4*sel+3],in[4*sel+2],in[4*sel+1],in[4*sel]};
+endmodule
+```
 
 
 
